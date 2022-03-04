@@ -36,6 +36,13 @@ namespace SuccessMarket
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseOpenApi();
+
+            app.UseSwaggerUi3();
+
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
