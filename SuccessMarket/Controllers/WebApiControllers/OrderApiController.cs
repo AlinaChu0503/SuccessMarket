@@ -11,5 +11,6 @@ namespace SuccessMarket.Controllers.WebApiControllers
     [ApiController]
     public class OrderApiController : ControllerBase
     {
+
     }
 }
