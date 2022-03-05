@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SuccessMarket.ViewModels
+namespace SuccessMarket.Services
 {
-    public class SuccessMarketViewModel
+    public class OrderService
     {
     }
 }

@@ -9,7 +9,7 @@ namespace SuccessMarket.Controllers.WebApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SuccessApiController : ControllerBase
+    public class OrderApiController : ControllerBase
     {
     }
 }
