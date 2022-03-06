@@ -11,14 +11,12 @@ namespace SuccessMarket.Services
     public class OrderService
     {
         private SuccessMarketRepository _successMarketRepository;
-        private NorthWindContext _northWindCtx;
         public OrderService()
         {
             _successMarketRepository = new SuccessMarketRepository();
-            _northWindCtx = new NorthWindContext();
         }
 
-        public void CreateOrderViewModel(OrderViewModel orderViewModel)
+        public void CreateOrder(OrderViewModel orderViewModel)
         {
             Order newOrder = new Order() 
             {
@@ -40,7 +38,7 @@ namespace SuccessMarket.Services
             _successMarketRepository.SaveChanges();
         }
 
-        public OrderViewModel GetOrderViewModel(int orderId)
+        public OrderViewModel GetOrder(int orderId)
         {
             var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
             OrderViewModel orederViewModel = new OrderViewModel()
@@ -64,7 +62,7 @@ namespace SuccessMarket.Services
             return orederViewModel;
         }
 
-        public void UpdateOrderViewModel(OrderViewModel orderViewModel)
+        public void UpdateOrder(OrderViewModel orderViewModel)
         {
             var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderViewModel.OrderId);
             Order.CustomerId = orderViewModel.CustomerId;
@@ -84,7 +82,7 @@ namespace SuccessMarket.Services
             _successMarketRepository.Update(Order);
             _successMarketRepository.SaveChanges();
         }
-        public void DeleteOrderViewModel(int orderId)
+        public void DeleteOrder(int orderId)
         {
             var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
             _successMarketRepository.Delete(Order);
