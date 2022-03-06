@@ -84,10 +84,33 @@ namespace SuccessMarket.Services
         }
         public void DeleteOrder(int orderId)
         {
-            var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
-            _successMarketRepository.Delete(Order);
-            _successMarketRepository.SaveChanges();
+            using (var tran = _successMarketRepository._northWindCtx.Database.BeginTransaction())
+            {
+                try
+                {
+                    var order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
+                    var orderDetails = _successMarketRepository.GetAll<OrderDetail>().Where(x => x.OrderId == orderId);
+                    //將有關連的orderDetails先全部刪除
+                    _successMarketRepository.DeleteAll(orderDetails);
+                    //才能刪掉該筆order
+                    _successMarketRepository.Delete<Order>(order);
+                    _successMarketRepository.SaveChanges();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                }
+            }
 
+            //var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
+            //_successMarketRepository.Delete(Order);
+            ////_successMarketRepository.SaveChanges();
+
+            ////其他資料表的foreign key，將有相同orderId的資料刪掉
+            //var OrderDetails = _successMarketRepository.GetAll<OrderDetail>().FirstOrDefault(x => x.OrderId == orderId);
+            //_successMarketRepository.Delete(OrderDetails);
+            //_successMarketRepository.SaveChanges();
         }
 
         

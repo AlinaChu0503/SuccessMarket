@@ -10,6 +10,9 @@ namespace SuccessMarket.Repositories
     public class SuccessMarketRepository
     {
         public readonly NorthWindContext _northWindCtx;
+
+        public object Database { get; internal set; }
+
         public SuccessMarketRepository()
         {
             _northWindCtx = new NorthWindContext();
@@ -32,6 +35,11 @@ namespace SuccessMarket.Repositories
         public void Delete<T>(T value) where T : class
         {
             _northWindCtx.Entry(value).State = EntityState.Deleted;
+        }
+
+        public void DeleteAll<T>(IEnumerable<T> list) where T : class
+        {
+            _northWindCtx.Set<T>().RemoveRange(list);
         }
 
         public IQueryable<T> GetAll<T>() where T : class

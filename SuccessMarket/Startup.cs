@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuccessMarket.Models.DataModels;
+using SuccessMarket.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +25,14 @@ namespace SuccessMarket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             services.AddControllersWithViews();
+            //DB
+            services.AddDbContext<NorthWindContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NorthWindContext")));
+
+            //Repository
+            services.AddScoped<SuccessMarketRepository>();
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
