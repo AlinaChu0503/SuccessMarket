@@ -16,6 +16,7 @@ namespace SuccessMarket.Services
             _successMarketRepository = new SuccessMarketRepository();
         }
 
+        //新增
         public void CreateOrder(OrderViewModel orderViewModel)
         {
             Order newOrder = new Order() 
@@ -38,6 +39,7 @@ namespace SuccessMarket.Services
             _successMarketRepository.SaveChanges();
         }
 
+        //讀取
         public OrderViewModel GetOrder(int orderId)
         {
             var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
@@ -62,6 +64,7 @@ namespace SuccessMarket.Services
             return orederViewModel;
         }
 
+        //更新
         public void UpdateOrder(OrderViewModel orderViewModel)
         {
             var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderViewModel.OrderId);
@@ -82,6 +85,8 @@ namespace SuccessMarket.Services
             _successMarketRepository.Update(Order);
             _successMarketRepository.SaveChanges();
         }
+
+        //刪除
         public void DeleteOrder(int orderId)
         {
             using (var tran = _successMarketRepository._northWindCtx.Database.BeginTransaction())

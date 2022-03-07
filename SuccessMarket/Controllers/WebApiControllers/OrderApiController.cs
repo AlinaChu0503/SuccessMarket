@@ -33,8 +33,20 @@ namespace SuccessMarket.Controllers.WebApiControllers
                 return new ApiResponse(ApiStatus.Failure, ex.Message, null);
             }
         }
-
         [HttpPost]
+        public ApiResponse CreateOrder(OrderViewModel orderViewModel)
+        {
+            try
+            {
+                orderService.CreateOrder(orderViewModel);
+                return new ApiResponse(ApiStatus.success, string.Empty, true);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(ApiStatus.Failure, ex.Message, null);
+            }
+        }
+        [HttpPut]
         public ApiResponse UpdateOrder(OrderViewModel orderViewModel)
         {
             try
