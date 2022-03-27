@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace SuccessMarket.Repositories
 {
-    public class SuccessMarketRepository
+    public class SuccessMarketRepository : ISuccessMarketRepository
     {
-        public readonly NorthWindContext _northWindCtx;
-
-        public object Database { get; internal set; }
+        private readonly NorthWindContext _northWindCtx;
+        public DbContext NorthWindCtx { get => _northWindCtx; }
 
         public SuccessMarketRepository()
         {
@@ -23,7 +22,7 @@ namespace SuccessMarket.Repositories
             _northWindCtx.SaveChanges();
         }
 
-        public void Create<T>(T value)where T : class
+        public void Create<T>(T value) where T : class
         {
             _northWindCtx.Entry(value).State = EntityState.Added;
         }

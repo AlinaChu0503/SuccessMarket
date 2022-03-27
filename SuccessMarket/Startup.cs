@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuccessMarket.Models.DataModels;
 using SuccessMarket.Repositories;
+using SuccessMarket.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,10 @@ namespace SuccessMarket
             services.AddDbContext<NorthWindContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NorthWindContext")));
 
             //Repository
-            services.AddScoped<SuccessMarketRepository>();
+            services.AddScoped<ISuccessMarketRepository, SuccessMarketRepository>();
+
+            //Service
+            services.AddScoped<IOrderService, OrderService>();
             services.AddOpenApiDocument();
         }
 

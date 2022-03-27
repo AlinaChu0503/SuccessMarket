@@ -14,10 +14,10 @@ namespace SuccessMarket.Controllers.WebApiControllers
     [ApiController]
     public class OrderApiController : ControllerBase
     {
-        private readonly OrderService orderService;
-        public OrderApiController()
+        private readonly IOrderService _orderService;
+        public OrderApiController(IOrderService orderService)
         {
-            orderService = new OrderService();
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace SuccessMarket.Controllers.WebApiControllers
         {
             try
             {
-                var result = orderService.GetOrder(orderId);
+                var result = _orderService.GetOrder(orderId);
                 return new ApiResponse(ApiStatus.success, string.Empty, result);
             }
             catch(Exception ex)
@@ -38,7 +38,7 @@ namespace SuccessMarket.Controllers.WebApiControllers
         {
             try
             {
-                orderService.CreateOrder(orderViewModel);
+                _orderService.CreateOrder(orderViewModel);
                 return new ApiResponse(ApiStatus.success, string.Empty, true);
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace SuccessMarket.Controllers.WebApiControllers
         {
             try
             {
-                orderService.UpdateOrder(orderViewModel);
+                _orderService.UpdateOrder(orderViewModel);
                 return new ApiResponse(ApiStatus.success, string.Empty, true);
             }
             catch(Exception ex)
@@ -65,7 +65,7 @@ namespace SuccessMarket.Controllers.WebApiControllers
         {
             try
             {
-                orderService.DeleteOrder(orderId);
+                _orderService.DeleteOrder(orderId);
                 return new ApiResponse(ApiStatus.success, String.Empty, true);
             }
             catch(Exception ex)

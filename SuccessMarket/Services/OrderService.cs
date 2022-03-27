@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace SuccessMarket.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
-        private SuccessMarketRepository _successMarketRepository;
-        public OrderService()
+        private readonly ISuccessMarketRepository _successMarketRepository;
+
+        public OrderService(ISuccessMarketRepository successMarketRepository)
         {
-            _successMarketRepository = new SuccessMarketRepository();
+            _successMarketRepository = successMarketRepository;
         }
 
         //新增
         public void CreateOrder(OrderViewModel orderViewModel)
         {
-            Order newOrder = new Order() 
+            Order newOrder = new Order()
             {
                 CustomerId = orderViewModel.CustomerId,
                 EmployeeId = orderViewModel.EmployeeId,
@@ -89,7 +90,7 @@ namespace SuccessMarket.Services
         //刪除
         public void DeleteOrder(int orderId)
         {
-            using (var tran = _successMarketRepository._northWindCtx.Database.BeginTransaction())
+            using (var tran = _successMarketRepository.NorthWindCtx.Database.BeginTransaction())
             {
                 try
                 {
@@ -107,17 +108,6 @@ namespace SuccessMarket.Services
                     tran.Rollback();
                 }
             }
-
-            //var Order = _successMarketRepository.GetAll<Order>().FirstOrDefault(x => x.OrderId == orderId);
-            //_successMarketRepository.Delete(Order);
-            ////_successMarketRepository.SaveChanges();
-
-            ////其他資料表的foreign key，將有相同orderId的資料刪掉
-            //var OrderDetails = _successMarketRepository.GetAll<OrderDetail>().FirstOrDefault(x => x.OrderId == orderId);
-            //_successMarketRepository.Delete(OrderDetails);
-            //_successMarketRepository.SaveChanges();
         }
-
-        
     }
 }
